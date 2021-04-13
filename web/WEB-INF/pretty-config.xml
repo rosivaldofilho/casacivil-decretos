@@ -1,0 +1,71 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="index">
+		<pattern value="/" />
+		<view-id value="/index.xhtml" />
+	</url-mapping>
+        
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/login.xhtml" />
+	</url-mapping>
+	
+        <url-mapping id="equipe">
+		<pattern value="/equipe" />
+		<view-id value="/equipe.xhtml" />
+	</url-mapping>
+	
+        <url-mapping id="erro404">
+		<pattern value="/erro" />
+		<view-id value="/erro404.xhtml" />
+	</url-mapping>
+	
+        <url-mapping id="dashboard">
+		<pattern value="/dashboard" />
+		<view-id value="/dashboard.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="pessoa-lista">
+		<pattern value="/usuarios" />
+		<view-id value="/pessoa/lista.xhtml" />
+	</url-mapping>
+	
+        <url-mapping id="pessoa-cadastro">
+		<pattern value="/usuario/cadastro" />
+		<view-id value="/pessoa/cadastro.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="pessoa-edicao">
+		<pattern value="/usuario/#{pessoa}/edicao" />
+		<view-id value="/pessoa/cadastro.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="decreto-lista">
+		<pattern value="/decretos" />
+		<view-id value="/decreto/lista.xhtml" />
+	</url-mapping>
+
+        <url-mapping id="decreto-cadastro">
+		<pattern value="/decreto/cadastro.xhtml" />
+		<view-id value="/decreto/cadastro.xhtml" />
+	</url-mapping>
+        
+	<url-mapping id="decreto-detalhe">
+		<pattern value="/decreto/#{decreto}" />
+		<view-id value="/decreto/detalhe.xhtml" />
+	</url-mapping>
+        
+
+	
+
+	<!-- 
+	<url-mapping id="jogador-edicao">
+		<pattern value="/jogadores/#{id: jogadorEdicaoBean.jogador.id}/edicao" />
+		<view-id value="/jogador-edicao.xhtml" />	
+		<action onPostback="false">#{jogadorEdicaoBean.buscar}</action>	
+	</url-mapping>
+	-->
+</pretty-config>

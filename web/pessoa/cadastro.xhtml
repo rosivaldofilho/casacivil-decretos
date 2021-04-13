@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="/WEB-INF/templates/Layout.xhtml"
+                xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="content">
+        <f:metadata>
+            <o:viewParam name="pessoa" value="#{pessoaBean.pessoa}" converter="pessoaConverter"/>
+        </f:metadata>
+        <h1 class="aw-page-title">Cadastro de Usuário</h1>
+        <h:form id="formulario" enctype="multipart/form-data" role="form" class="form-horizontal">
+            <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <h:commandButton value="Salvar" action="#{pessoaBean.salvarPessoa()}" class="btn btn-primary" 
+                                     onclick="setTimeout(function() { $('[id$=mensagem]').hide(1000); }, 3500);">
+                        <f:ajax render="@form" execute="@form"/>
+                    </h:commandButton>
+                </p:toolbarGroup>
+                <p:toolbarGroup class="pull-right">
+                    <c:if test="#{pessoaBean.pessoa.id != null}">
+                        <h:commandButton class="btn btn-danger" value="Alterar Senha" type="button" onclick="PF('dialogoSenha').show();" />
+                    </c:if>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:messages for="mensagem" id="mensagem" showSummary="false" showDetail="true" closable="true" autoUpdate="true"/>
+            <p:growl for="notificacao" id="growl" showSummary="false" showDetail="true" autoUpdate="true"/>
+
+            <div class="ui-fluid">
+                <p:panelGrid columns="4" layout="grid" style="margin-top: 20px" styleClass="panelgrid-noborder"
+                             columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
+
+                    <p:outputLabel value="Nome" for="nome" />
+                    <h:panelGroup>
+                        <p:inputText id="nome" value="#{pessoaBean.pessoa.nome}" required="true" />
+                        <p:message for="nome" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="CPF" for="documentoReceita" />
+                    <h:panelGroup rendered="#{pessoaBean.pessoa.id == null}">
+                        <p:inputMask label="CPF" mask="999.999.999-99" value="#{pessoaBean.pessoa.documentoReceita}"
+                                     disabled="#{pessoaBean.pessoa.id != null and !segurancaBean.administrador}" id="documentoReceita" 
+                                     class="form-control" validator="cpfUniqueValidator" required="true"/>
+                        <p:message for="documentoReceita" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{pessoaBean.pessoa.id != null}">
+                        <p:inputMask label="CPF" mask="999.999.999-99" value="#{pessoaBean.pessoa.documentoReceita}"
+                                     disabled="#{pessoaBean.pessoa.id != null and !segurancaBean.administrador}" id="documentoReceitaId" 
+                                     class="form-control" required="true"/>
+                        <p:message for="documentoReceitaId" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="E-mail" for="email" />
+                    <h:panelGroup>
+                        <p:inputText id="email" value="#{pessoaBean.pessoa.email}" required="true" />
+                        <p:message for="email" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Telefone" for="telefone" />
+                    <h:panelGroup>
+                        <p:inputMask mask="(99)99999-9999" value="#{pessoaBean.pessoa.telefone}" id="telefone" class="mask_phone form-control"/>
+                        <p:message for="telefone" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <c:if test="#{pessoaBean.pessoa.id == null}">
+                        <p:outputLabel value="Senha" for="senha01" />
+                        <h:panelGroup>
+                            <p:password id="senha01" value="#{pessoaBean.pessoa.usuario.senha}" label="Senha"
+                                        match="senha02" required="true" class="form-control" feedback="true"
+                                        promptLabel="Digite a senha" weakLabel="Força da senha : Fraca" inline="true"
+                                        goodLabel="Força da senha : Média" strongLabel="Força da senha : Forte"
+                                        validatorMessage="As duas senhas devem ser iguais"/>
+                            <p:message for="senha01" showSummary="false" showDetail="true" escape="true"/>
+                        </h:panelGroup>
+
+                        <p:outputLabel value="Confirme a Senha" for="senha02" />
+                        <h:panelGroup>
+                            <p:password id="senha02" value="#{pessoaBean.pessoa.usuario.senha}"  required="true"
+                                        label="Confirmação de Senha" class="form-control"/>
+                            <p:message for="senha02" showSummary="false" showDetail="true" escape="true"/>
+                        </h:panelGroup>
+                    </c:if>
+                </p:panelGrid>
+            </div>
+        </h:form>
+
+        <c:if test="#{pessoaBean.pessoa.id != null}">
+            
+            <h:form id="formAlteraSenha" enctype="multipart/form-data" role="form" class="form-horizontal">
+                <p:dialog  header="Alterar Senha" widgetVar="dialogoSenha" modal="true" responsive="true" >
+                    <h:inputHidden value="#{pessoaBean.pessoa.id}"/>
+                    <p:outputLabel value="Nova Senha" for="senha01" />
+                    <h:panelGroup>
+                        <p:password id="senha01" value="#{pessoaBean.pessoa.usuario.senha}" label="Senha"
+                                    match="senha02" required="true" class="form-control" feedback="true"
+                                    promptLabel="Digite a senha" weakLabel="Força da senha : Fraca" inline="true"
+                                    goodLabel="Força da senha : Média" strongLabel="Força da senha : Forte"
+                                    validatorMessage="As duas senhas devem ser iguais"/>
+                        <p:message for="senha01" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+                    <div class="margin-top-10">
+                        <p:outputLabel value="Confirme Nova Senha" for="senha02" />
+                        <h:panelGroup>
+                            <p:password id="senha02" value="#{pessoaBean.pessoa.usuario.senha}"  required="true"
+                                        label="Confirmação de Senha" class="form-control"/>
+                            <p:message for="senha02" showSummary="false" showDetail="true" escape="true"/>
+                        </h:panelGroup>
+                    </div>
+                    <f:facet name="footer">
+                        <p:commandButton value="Alterar" update="formAlteraSenha" class="btn btn-primary pull-right" action="#{pessoaBean.alterarSenhaAdm()}" />
+                        <div class="clearfix"></div>
+                    </f:facet> 
+                </p:dialog>
+            </h:form>
+        </c:if>
+    </ui:define>
+</ui:composition>

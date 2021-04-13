@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <nav class="aw-menu">
+        <ul>
+            <!--<li class="#{view.viewId eq '/dashboard.xhtml' ? 'is-selected' : ''}">
+                <h:link outcome="/dashboard"><i class="fa  fa-fw  fa-home"></i>Dashboard</h:link>
+            </li>-->
+            <c:if test="#{segurancaBean.administrador}">
+                <li class="#{view.viewId eq '/pessoa/lista.xhtml' ? 'is-selected' : ''}">
+                    <h:link outcome="/pessoa/lista"><i class="fa  fa-fw  fa-user"></i>Usuarios</h:link>
+                </li>
+            </c:if>
+            <li class="#{view.viewId eq '/decreto/lista.xhtml' ? 'is-selected' : ''}">
+                <h:link outcome="/decreto/lista"><i class="fa  fa-fw  fa-file-text"></i>Decretos</h:link>
+            </li>
+            <li>
+                <h:link outcome="/index"><i class="fa  fa-fw  fa-search"></i>Pesquisa</h:link>
+            </li>
+            <c:if test="#{segurancaBean.administrador}">
+                <li class="#{view.viewId eq '/configuracoes.xhtml' ? 'is-selected' : ''}">
+                    <h:link><i class="fa  fa-fw  fa-cog"></i>Configurações</h:link>
+                </li>
+            </c:if>
+        </ul>
+    </nav>
+
+</ui:composition>

@@ -1,0 +1,131 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"    
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="/WEB-INF/templates/Layout.xhtml"
+                xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="content">
+
+        <f:facet name="middle">
+            <h:outputStylesheet library="casacivil" name="/plugins/summernote-0.8.6/dist/summernote.css" />
+            <h:outputScript target="body" library="casacivil" name="/plugins/summernote-0.8.6/dist/summernote.js"/>
+            <h:outputScript target="body" library="casacivil" name="/plugins/summernote-0.8.6/dist/summernote_pt-BR.js"/>
+            <h:outputScript target="body" library="casacivil" name="/plugins/summernote-0.8.6/dist/summernote-ext-codewrapper.js"/>
+            <h:outputScript target="body" library="casacivil" name="/plugins/summernote-0.8.6/dist/summernote_personalizado.js"/>
+            
+            <c:if test="#{segurancaBean.servidor}">
+                <h:outputScript target="body" library="casacivil" name="/plugins/summernote-0.8.6/dist/summernote_codeview-hide.js"/>
+            </c:if>
+        </f:facet>
+
+        <f:metadata>
+            <o:viewParam name="decreto" value="#{decretoBean.decreto}" converter="decretoNumeroConverter"/>
+            <f:viewParam name="" />
+            <f:event listener="#{decretoBean.atualizaContexto()}" type="preRenderView"/>
+        </f:metadata>
+
+        <c:if test="#{decretoBean.decreto.id eq null}">
+            <h1 class="aw-page-title">Cadastro de Decreto</h1>
+        </c:if>
+        <c:if test="#{decretoBean.decreto.id != null}">
+            <h1 class="aw-page-title">Edição de Decreto</h1>
+        </c:if>
+        <h:form id="formulario" enctype="multipart/form-data" role="form" class="form-horizontal">
+
+
+            <h:inputHidden value="#{decretoBean.decreto.id}"/>
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <h:commandButton value="Salvar" action="#{decretoBean.salvarDecreto()}" class="btn btn-primary" />
+
+                </p:toolbarGroup>
+                <p:toolbarGroup align="right">
+                    <c:if test="#{decretoBean.decreto.id != null}">
+                        <a href="#{facesContext.externalContext.requestContextPath}/decreto/#{decretoBean.decreto.numero}" 
+                           class="btn btn-danger" style="color:#FFF">Visualizar</a>
+                    </c:if> 
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:messages for="mensagem" id="mensagem" showSummary="false" showDetail="true" closable="true" autoUpdate="true"/>
+
+            <div class="ui-fluid">
+                <p:panelGrid columns="2" layout="grid" style="margin-top: 20px" styleClass="panelgrid-noborder"
+                             columnClasses="ui-grid-col-2, ui-grid-col-9">
+
+                    <p:outputLabel value="Número do Decreto" for="numero" />
+                    <h:panelGroup>
+                        <c:if test="#{decretoBean.decreto.id eq null}">
+                            <p:inputText id="numero" value="#{decretoBean.decreto.numero}"
+                                         validator="numeroDecretoUniqueValidator" required="true" />
+                        </c:if>
+                        <c:if test="#{decretoBean.decreto.id != null}">
+                            <p:inputText id="numero" value="#{decretoBean.decreto.numero}" required="true" />
+                        </c:if>
+
+                        <p:message for="numero" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Data do Decreto" for="dataDecreto" />
+                    <h:panelGroup>
+                        <p:calendar id="dataDecreto" mask="99/99/9999" locale="pt" value="#{decretoBean.decreto.dataDecreto}" required="true" pattern="dd/MM/yyyy"/>
+                        <p:message for="dataDecreto" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="DOE" for="doe" />
+                    <h:panelGroup>
+                        <p:inputText id="doe" value="#{decretoBean.decreto.doe}" required="true" />
+                        <p:message for="doe" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Arquivo PDF" />
+                    <h:panelGroup id="mostradorPdf">
+
+                        <h:panelGroup rendered="#{decretoBean.pdfTemp.equals('')}">
+                            <c:if test="#{decretoBean.decreto.linkArquivo != null}">
+                                <object type="application/pdf" data="#{decretoBean.facesContext.externalContext.requestContextPath}#{decretoBean.decreto.linkArquivo}?pfdrid_c=true" height="400px" width="100%" internalinstanceid="3">
+                                    Seu navegador não suporta exibição de pdf, <a href="#{decretoBean.facesContext.externalContext.requestContextPath}#{decretoBean.decreto.linkArquivo}" target="blank">click aqui</a> para baixar o arquivo.
+                                </object>
+                            </c:if>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{!decretoBean.pdfTemp.equals('')}">
+                            <object type="application/pdf" data="#{decretoBean.facesContext.externalContext.requestContextPath}#{decretoBean.pdfTemp}?pfdrid_c=true" height="400px" width="100%" internalinstanceid="3">
+                                Seu navegador não suporta exibição de pdf, <a href="#{decretoBean.facesContext.externalContext.requestContextPath}#{decretoBean.pdfTemp}" target="blank">click aqui</a> para baixar o arquivo.
+                            </object>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:fileUpload id="arquivoPdf" fileUploadListener="#{decretoBean.uploadArquivo}" mode="advanced" dragDropSupport="false"
+                                          sizeLimit="3145728" fileLimit="3" allowTypes="/(\.|\/)(pdf)$/" auto="true" update="mostradorPdf" 
+                                          invalidFileMessage="Arquivo inválido, utilize apenas PDF"
+                                          invalidSizeMessage="Arquivo grande, máximo de 3Mb"
+                                          requiredMessage="Selecione um decreto em pdf para completar o cadastro"
+                                          label="Selecionar PDF"/>
+                            <p:message for="arquivoPdf" showSummary="false" showDetail="true" escape="true"/>
+                        </h:panelGroup>
+                    </h:panelGroup>
+
+
+                    <p:outputLabel value="Ementa" for="ementa" />
+                    <h:panelGroup>
+                        <p:inputText id="ementa" value="#{decretoBean.decreto.ementa}" required="true" />
+                        <p:message for="ementa" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Conteudo" for="conteudo" />
+                    <h:panelGroup>
+                        <h:inputTextarea class="summernote" id="conteudo" value="#{decretoBean.decreto.conteudo}" required="true" />
+                        <p:message for="conteudo" showSummary="false" showDetail="true" escape="true"/>
+                    </h:panelGroup>
+
+                </p:panelGrid>
+                <div style="height: 20em;"></div>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

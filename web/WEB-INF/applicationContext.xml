@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+           
+    <beans:bean id="appUserDetailsService" class="security.AppUserDetailsService" />
+    
+    <!-- CORREÇÃO PROBLEMA REQUISIÇÃO AJAX -->
+    <beans:bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <beans:property name="accessDeniedHandler" ref="jsfAccessDeniedHandler"/>
+        <beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+    </beans:bean>
+	
+    <beans:bean id="jsfAccessDeniedHandler" class="security.JsfAccessDeniedHandler">
+        <beans:property name="loginPath" value="/erro404.xhtml" />
+        <beans:property name="contextRelative" value="true" />
+    </beans:bean>
+    
+    <beans:bean id="authenticationEntryPoint" class="security.JsfLoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/login.xhtml"/>
+        <beans:property name="redirectStrategy" ref="jsfRedirectStrategy" />
+    </beans:bean>
+	
+    <beans:bean id="jsfRedirectStrategy" class="security.JsfRedirectStrategy"/>
+    <!-- END CORREÇÃO PROBLEMA REQUISIÇÃO AJAX -->
+    
+    <http pattern="/login.xhtml" security="none"/>
+    <http pattern="/equipe**" security="none"/>
+    <http pattern="/erro404.xhtml" security="none"/>
+    <http pattern="/javax.faces.resource/**" security="none"/>
+    <http pattern="/resources/**" security="none"/>
+    <http pattern="/rest/**" security="none"/>
+    
+    <http auto-config="false" use-expressions="true">
+        <custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+        <!-- PÁGINAS -->
+        <intercept-url pattern="/decreto/cadastro.xhtml**"  access="hasAnyRole('ROLE_SERVIDOR', 'ROLE_ADMINISTRADOR')"/>
+        <intercept-url pattern="/decreto/lista.xhtml**"     access="hasAnyRole('ROLE_SERVIDOR', 'ROLE_ADMINISTRADOR')"/>
+        <intercept-url pattern="/pessoa/**"                 access="hasAnyRole('ROLE_ADMINISTRADOR')"/>
+        <intercept-url pattern="/usuario/**"                access="hasAnyRole('ROLE_ADMINISTRADOR')"/>
+        <intercept-url pattern="/dashboard.xhtml**"         access="isAuthenticated()"/>
+        <intercept-url pattern="/teste**"                   access="hasAnyRole('ROLE_ADMINISTRADOR')"/>
+        <!-- END PÁGINAS -->
+        
+        <!-- PRETTYFACES -->
+        <intercept-url pattern="/decretos**"    access="isAuthenticated()"/>
+        <intercept-url pattern="/usuarios**"    access="isAuthenticated()"/>
+        <intercept-url pattern="/dashboard**"    access="isAuthenticated()"/>
+
+        <!-- END PRETTYFACES -->
+
+        <!-- DIRETÓRIOS -->
+        <intercept-url pattern="/index.xhtml" access="permitAll" />
+        <intercept-url pattern="/**" access="permitAll" />
+        <!-- END DIRETÓRIOS -->
+
+        
+        <form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?invalid=true"
+                    default-target-url="/decretos" always-use-default-target="true"/>
+        
+        <logout logout-url="/j_spring_security_logout" invalidate-session="true"/>
+    </http>
+	
+    <authentication-manager>
+        <authentication-provider user-service-ref="appUserDetailsService">
+            <password-encoder hash="md5" />
+        </authentication-provider>
+    </authentication-manager>
+           
+</beans:beans>

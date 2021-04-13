@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Front.xhtml"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <f:metadata>
+            <o:viewParam name="decreto" value="#{decretoBean.decreto}" converter="decretoNumeroConverter"/>
+        </f:metadata>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/" 
+                              title="Início" >
+                    <i class="fa fa-home"> Início</i>
+                </h:outputLink>
+            </li>
+            <li class="breadcrumb-item active">
+                <span>Decreto</span>
+            </li>
+            <div class="clearfix"></div>
+        </ol>
+        <div class="ui-fluid" style="margin-top: -10px">
+
+            <b:panel style="border: none">
+                <fieldset>
+                    <legend class="navbar-header" style="font-size: 1.4em">
+                        <h:outputText value="Decreto N"/><u><sup>o</sup></u>
+                        <h:outputText value=" "/>
+                        <h:outputText value="#{decretoBean.decreto.numero.doubleValue()}">
+                            <f:convertNumber minFractionDigits="0"/>
+                        </h:outputText>, de 
+                        <h:outputText value="#{decretoBean.decreto.dataDecreto}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <c:if test="#{decretoBean.decreto.doe!=null}">
+                            - <p:link href='https://diariooficial.to.gov.br/busca/?por=edicao&#38;edicao=#{decretoBean.decreto.doe}' 
+                                      target='_blank'>DOE <h:outputText value="#{decretoBean.decreto.doe}" title="Ir para Diário Oficial do Estado"/></p:link>
+                        </c:if>
+
+                        <c:if test="#{decretoBean.decreto.linkArquivo!=null}">
+                            <h:outputLink value="#{facesContext.externalContext.requestContextPath}#{decretoBean.decreto.linkArquivo}" 
+                                          class="btn btn-primary btn-xs pull-right" title="Baixar arquivo em PDF" target="_blank" >
+                                <i class="fa fa-download" aria-hidden="true"> Download</i>
+                            </h:outputLink>
+                        </c:if>
+
+                        <c:if test="#{segurancaBean.servidor || segurancaBean.administrador}">
+                            <h:outputLink value="#{facesContext.externalContext.requestContextPath}/decreto/cadastro.xhtml?decreto=#{decretoBean.decreto.numero}" 
+                                          class="btn btn-danger btn-xs pull-right margin-right-5" title="Editar Decreto" >
+                                <i class="fa fa-edit" aria-hidden="true"> Editar</i>
+                            </h:outputLink>
+                        </c:if>
+
+                        <div class="clearfix"></div>
+                    </legend>
+                </fieldset>
+
+                <div class="col-md-12">
+                    <div class="conteudo-decreto">
+                        <center>
+                            <h:graphicImage library="casacivil" name="/images/governo_do_estado_do_tocantins.jpg"/>
+                        </center>
+                        <!--
+                        <center>
+                            <span style="font-weight: bold; font-family: Arial;">
+                                <h:outputText value="DECRETO N"/><u><sup>o</sup></u>
+                                <h:outputText value=" "/>
+                                <h:outputText value="#{decretoBean.decreto.numero.doubleValue()}">
+                                    <f:convertNumber minFractionDigits="0"/>
+                                </h:outputText>, de
+                                <h:outputText value="#{decretoBean.dataDecretoExtenso}"/>
+                            </span>
+                        </center>
+    
+                        <h:outputText value="#{decretoBean.decreto.ementa}" class="pull-right" 
+                                      style="width: 50%; margin-top: 2em; text-align: justify" escape="false"/>
+                        <div class="clearfix"></div>-->
+
+                        <script>
+                            $(document).ready(function () {
+                                $('.MsoQuote').attr("style", "width: 50%; margin-top: 2em; text-align: justify; float:right");
+                                $('p[style*="margin-left:8.0cm"]').attr("style", "width: 50%; margin-top: 2em; text-align: justify; float:right");
+                                $('p[style*="8cm"]').attr("style", "width: 50%; margin-top: 2em; text-align: justify; float:right");
+                                $('p[style^="width: 50%"] + p').prepend('<div class="clearfix"></div>');
+                                $('table, td, th, tr').attr("width", "");
+                            });
+                        </script>
+
+                        <h:outputText value="#{decretoBean.decreto.conteudo}" escape="false"/><br/><br/><br/>
+                        <center><span class="text-danger">Este texto não substitui o publicado no Diário Oficial do Estado.</span></center>
+
+                    </div>
+                </div>
+            </b:panel>
+        </div>
+
+    </ui:define>
+</ui:composition>

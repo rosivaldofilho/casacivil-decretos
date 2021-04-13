@@ -1,0 +1,114 @@
+/* BASE */
+body {
+    margin: 0;
+    font-size: 13px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.login-title{
+    font-size: 1.5em;
+}
+
+/* TABVIEW */
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a {
+    color: #555;
+}
+
+.ui-datatable .ui-column-filter{
+    width: 80% !important;
+}
+
+.ui-fluid .ui-inputfield{
+    height: 2.5em;
+}
+
+.table{
+    margin-bottom: 0px !important;
+}
+
+.form-group{
+    margin-bottom: 0px !important;
+}
+
+.padding-5{ padding: 5px !important;}
+.padding-10{ padding: 10px !important;}
+.padding-15{ padding: 15px !important;}
+.padding-20{ padding: 20px !important;}
+
+.padding-top-5{ padding: 5px !important;}
+.padding-top-10{ padding: 10px !important;}
+.padding-top-15{ padding: 15px !important;}
+.padding-top-20{ padding: 20px !important;}
+
+.padding-left-0{ padding: 0px !important;}
+.padding-left-5{ padding: 5px !important;}
+.padding-left-10{ padding: 10px !important;}
+.padding-left-15{ padding: 15px !important;}
+.padding-left-20{padding: 20px !important;}
+
+.padding-right-0{ padding: 0px !important;}
+.padding-right-5{ padding: 5px !important;}
+.padding-right-10{ padding: 10px !important;}
+.padding-right-15{ padding: 15px !important;}
+.padding-right-20{ padding: 20px !important;}
+
+.padding-bottom-5{ padding: 5px !important; }
+.padding-bottom-10{ padding: 10px !important; }
+.padding-bottom-15{ padding: 15px !important; }
+.padding-bottom-20{ padding: 20px !important; }
+
+
+.margin-top-5 { margin-top: 0.5em; }
+.margin-top-10 { margin-top: 1.0em; }
+.margin-top-15 { margin-top: 1.5em; }
+.margin-top-20 { margin-top: 2.0em; }
+.margin-top-25 { margin-top: 2.5em; }
+.margin-top-30 { margin-top: 3.0em; }
+
+.margin-left-5 { margin-left: 0.5em; }
+.margin-left-10 { margin-left: 1.0em; }
+.margin-left-15 { margin-left: 1.5em; }
+.margin-left-20 { margin-left: 2.0em; }
+.margin-left-25 { margin-left: 2.5em; }
+.margin-left-30 { margin-left: 3.0em; }
+
+.margin-bottom-5 { margin-bottom: 0.5em; }
+.margin-bottom-10 { margin-bottom: 1.0em; }
+.margin-bottom-15 { margin-bottom: 1.5em; }
+.margin-bottom-20 { margin-bottom: 2.0em; }
+.margin-bottom-25 { margin-bottom: 2.5em; }
+.margin-bottom-30 { margin-bottom: 3.0em; }
+
+.margin-right-5 { margin-right: 0.5em; }
+.margin-right-10 { margin-right: 1.0em; }
+.margin-right-15 { margin-right: 1.5em; }
+.margin-right-20 { margin-right: 2.0em; }
+.margin-right-25 { margin-right: 2.5em; }
+.margin-right-30 { margin-right: 3.0em; }
+
+
+/* PANELGRID */
+.ui-panelgrid.panelgrid-noborder .ui-grid-responsive {
+    border: none;
+}
+
+.numeroDecretoLargura{
+    width: 10%;
+}
+.dataCadastroLargura{
+    width: 15%;
+}
+
+@media (max-width: 640px) {
+    .ui-panelgrid.panelgrid-noborder .ui-grid-responsive .ui-grid-row {
+        border: none;
+    }
+
+    .ui-tabs.ui-tabs-top > .ui-tabs-nav li {
+        width: 100%;
+    }
+
+    .numeroDecretoLargura{
+        width: 25%;
+    }
+}

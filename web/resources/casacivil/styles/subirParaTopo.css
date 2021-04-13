@@ -1,0 +1,25 @@
+/* SUBIR AO TOPO */
+
+#subirTopo {
+    text-decoration: none;
+    background: rgba(51,122,183,.9);
+    bottom: 30px;
+    right: 30px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: fixed;
+    border: 0;
+    font-family: sans-serif;
+    opacity: .8;
+}
+
+#subirTopo:hover {
+    opacity:1;
+}
+
+/* END SUBIR AO TOPO */

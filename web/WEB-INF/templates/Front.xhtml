@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="Content-Language" content="pt-br"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />		
+            <link rel="icon" href="#{facesContext.externalContext.requestContextPath}/resources/casacivil/images/_logo.png" type="image/png" />
+            <title>DECRETOS</title>
+        </f:facet>
+
+        <h:outputStylesheet library="casacivil" name="styles/custom.css" />
+        <h:outputStylesheet library="casacivil" name="styles/layout-front.css" />
+        <h:outputStylesheet library="casacivil" name="styles/components.css" />
+        <h:outputStylesheet library="casacivil" name="styles/subirParaTopo.css" />
+
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async="true" src="https://www.googletagmanager.com/gtag/js?id=UA-90843045-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-90843045-2');
+        </script>
+
+        <h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
+        <h:outputScript target="body" library="casacivil" name="javascripts/app.js" />
+        <h:outputScript target="body" library="casacivil" name="javascripts/primefacesCalendar.js" />
+        <h:outputScript target="body" library="casacivil" name="javascripts/subirParaTopo.js" />
+
+    </h:head>
+
+    <h:body>
+
+        <script type="text/javascript" charset="utf-8" src="https://barra.to.gov.br/topo.js?k=izflux"></script>
+        <div class="topo"></div>
+        <section class="aw-content  js-content">
+            <div class="row">
+                <ui:insert name="content" />
+            </div>
+        </section>
+        <script type="text/javascript" charset="utf-8" src="https://barra.to.gov.br/base.js?k=izflux"></script>
+        <a href="/equipe">
+            <div class="text-primary breadcrumb" style="margin-bottom: 0">
+                <center><i class="fa fa-users" aria-hidden="true"></i> Equipe de Desenvolvimento</center>
+            </div>
+        </a>
+    </h:body>
+
+
+</html>

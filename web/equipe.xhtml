@@ -1,0 +1,74 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="Content-Language" content="pt-br"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />		
+            <link rel="icon" href="#{facesContext.externalContext.requestContextPath}/resources/casacivil/images/_logo.png" type="image/png" />
+            <title>DECRETOS</title>
+        </f:facet>
+
+        <h:outputStylesheet library="casacivil" name="styles/custom.css" />
+        <h:outputStylesheet library="casacivil" name="styles/layout-front.css" />
+        <h:outputStylesheet library="casacivil" name="styles/components.css" />
+
+        <h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
+        <h:outputScript target="body" library="casacivil" name="javascripts/app.js" />
+    </h:head>
+
+    <h:body>
+
+
+
+        <section class="aw-content  js-content">
+            <f:metadata>
+                <f:viewParam name="dummy" />
+                <f:event listener="#{loginBean.preRender}" type="preRenderView" />
+            </f:metadata>
+            <b:row/>
+
+            <center>
+                <div class="col-md-3"></div>
+                <div class="col-md-6 margin-top-10">
+                    <img src="#{facesContext.externalContext.requestContextPath}/resources/casacivil/images/_logo.png" style="height: auto; width: 45%"/>
+                    <div class="panel-body" style="background: none;">
+                        <div style="font-size: 1.5em;">
+                            <br/>
+                            <br/>
+                            <p>Idealização do Projeto</p>
+                            <div class="text-primary">
+                                <p><strong>Aline Pio Borges</strong></p>
+                                <p><strong>Gustavo Andrade Campos</strong></p>
+
+                                <p><strong><a href="http://linkedin.com/in/rosivaldo-filho" target="_blank">Rosivaldo Freitas de Souza Filho</a></strong></p>
+                            </div>
+                            <br/>
+                            <p>Criação e Desenvolvimento do Sistema</p>
+                            <div class="text-primary">
+                                <p><strong><a href="http://linkedin.com/in/rosivaldo-filho" target="_blank">Rosivaldo Freitas de Souza Filho</a></strong></p>
+                            </div>
+                            <br/>
+                            <p>Consolidação, Revisão e Abastecimento
+                                de Conteúdo no Acervo Digital de Decretos</p>
+                            <div class="text-primary">
+                                <p><strong>Aline Pio Borges</strong></p>
+                                <p><strong><a href="http://lattes.cnpq.br/4340058083933794" target="_blank">Cláudia Amélia Vargas</a></strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+
+        </section>
+    </h:body>
+
+</html>
+

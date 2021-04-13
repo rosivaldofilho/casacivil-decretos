@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml"
+                xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="content">
+        <f:metadata>
+            <f:event listener="#{pessoaBean.inicializarPessoas()}" type="preRenderView"/>
+        </f:metadata>
+        <h1 class="aw-page-title">Usuários</h1>
+        <h:form id="formulario" enctype="multipart/form-data" role="form" class="form-horizontal">
+            <!--<h:commandLink class="">
+                    <p:graphicImage library="images" name="/icones/Graphicloads-Filetype-Excel-xls.ico"  width="32"/>
+                    <p:dataExporter type="pdf" target="tabelaPessoa" fileName="cars" pageOnly="true"/>
+                </h:commandLink>-->
+            <p:dataTable id="tabelaPessoa" value="#{pessoaBean.pessoas}" var="pessoa" tableStyleClass="table table-striped table-condensed dataTable table-hover" rows="10" class=""
+                         paginator="true" widgetVar="pessoasTabela" emptyMessage="Nenhum pessoa cadastrado por enquanto..."
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,15,20" filteredValue="#{pessoaBean.pessoasFiltrados}" sortBy="#{pessoa.nome}" sortOrder="ascending"
+                         reflow="true" rowHover="true" >
+
+                <f:facet name="header">
+                    <b:button value="Novo Usuário" icon="glyphicon glyphicon-plus" class="btn btn-primary" outcome="/pessoa/cadastro" col-xs="12" col-lg="2" col-md="3"/>
+                    
+                    <p:outputPanel style="display: inline; float: right;">
+                        <h:outputText value="Buscar: " />
+                        <p:inputText id="globalFilter" onkeyup="PF('pessoasTabela').filter()" placeholder="Digite sua busca"/>
+                    </p:outputPanel>
+                    <div style="clear: both;"></div>
+                </f:facet>
+                
+
+                <p:column filterBy="#{pessoa.nome}" headerText="Nome" priority="1">
+                    <h:outputText value="#{pessoa.nome}"/>
+                </p:column>
+
+                <p:column headerText="Telefone" priority="2">
+                    <h:outputText value="#{pessoa.telefone}"/>
+                </p:column>
+
+                <p:column filterBy="#{pessoa.documentoReceita}" headerText="CPF" priority="3">
+                    <h:outputText value="#{pessoa.documentoReceita}"/>
+                </p:column>
+
+
+                <p:column headerText="Ações" style="width: 6.2em;">
+
+                    <div class="form-horizontal">
+
+                        <p:button icon="ui-icon-pencil" class="btn btn-info waves-effect" outcome="/pessoa/cadastro">
+                            <f:param name="pessoa" value="#{pessoa.id}"/>
+                        </p:button>
+
+
+                        <!--                                    <div class="pull-right">
+                                                                <p:commandButton value="Excluir" class="btn btn-danger  waves-effect" action=""
+                                                                                 update="@form" process="@this"/>
+                                                            </div>-->
+                    </div>
+
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
